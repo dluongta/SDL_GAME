@@ -32,13 +32,13 @@ ResultAction ResultScreen::Show(SDL_Surface* screen,
         if (result == RESULT_WIN)
             title.SetText("YOU WIN!");
         else
-            title.SetText("GAME OVER");
+            title.SetText("GAME OVER!");
 
         txtScore.SetText("Score : " + std::to_string(score));
         txtHigh.SetText("High Score : " + highScore);
 
-        replay.SetText("[ Play Again ]");
-        menu.SetText("[ Back Menu ]");
+        replay.SetText("Play Again");
+        menu.SetText("Back Menu");
 
         title.SetRect(250, 80);
         txtScore.SetRect(250, 170);
