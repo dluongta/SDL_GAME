@@ -51,7 +51,7 @@ ResultAction ResultScreen::Show(SDL_Surface* screen,
         // Hover cho nút Play Again (Dải tọa độ 220-360 x 320-350)
         if (mouse_x >= 220 && mouse_x <= 360 && mouse_y >= 320 && mouse_y <= 350)
         {
-            replay.SetColor(TextObject::PURPLE_PINK_TEXT);
+            replay.SetColor(TextObject::PURPLE_TEXT);
         }
         else
         {
@@ -61,7 +61,7 @@ ResultAction ResultScreen::Show(SDL_Surface* screen,
         // Hover cho nút Back Menu (Dải tọa độ 420-560 x 320-350)
         if (mouse_x >= 420 && mouse_x <= 560 && mouse_y >= 320 && mouse_y <= 350)
         {
-            menu.SetColor(TextObject::PURPLE_PINK_TEXT);
+            menu.SetColor(TextObject::PURPLE_TEXT);
         }
         else
         {

@@ -12,7 +12,7 @@ public:
 		RED_TEXT = 0,
 		WHITE_TEXT = 1,
 		BLACK_TEXT = 2,
-		PURPLE_PINK_TEXT = 3
+		PURPLE_TEXT = 3
 	};
 	TextObject();
 	~TextObject();

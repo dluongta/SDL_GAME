@@ -102,8 +102,8 @@ int SDLCommonFunc::ShowMenu(SDL_Surface* des, TTF_Font* font)
                         if (selected[i] == 0)
                         {
                             selected[i] = 1;
-                            // HOVER: Đổi sang Tím Hồng
-                            text_menu[i].SetColor(TextObject::PURPLE_PINK_TEXT);
+                            // HOVER: Đổi sang Tím
+                            text_menu[i].SetColor(TextObject::PURPLE_TEXT);
                         }
                     }
                     else

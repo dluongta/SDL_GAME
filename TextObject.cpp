@@ -31,7 +31,7 @@ void TextObject::SetColor(const int& type)
 		SDL_Color color = { 0, 0, 0 };
 		text_color_ = color;
 	}
-	else if (type == PURPLE_PINK_TEXT)
+	else if (type == PURPLE_TEXT)
 	{
 		SDL_Color color = { 128, 0, 128 };
 		text_color_ = color;
