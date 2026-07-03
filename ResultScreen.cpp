@@ -22,12 +22,10 @@ ResultAction ResultScreen::Show(SDL_Surface* screen,
         TextObject replay;
         TextObject menu;
 
-        // Chữ màu đỏ
+        // Chữ tĩnh màu đỏ
         title.SetColor(TextObject::RED_TEXT);
         txtScore.SetColor(TextObject::RED_TEXT);
         txtHigh.SetColor(TextObject::RED_TEXT);
-        replay.SetColor(TextObject::RED_TEXT);
-        menu.SetColor(TextObject::RED_TEXT);
 
         if (result == RESULT_WIN)
             title.SetText("YOU WIN!");
@@ -36,16 +34,39 @@ ResultAction ResultScreen::Show(SDL_Surface* screen,
 
         txtScore.SetText("Score : " + std::to_string(score));
         txtHigh.SetText("High Score : " + highScore);
-
         replay.SetText("Play Again");
         menu.SetText("Back Menu");
 
         title.SetRect(250, 80);
         txtScore.SetRect(250, 170);
         txtHigh.SetRect(250, 210);
-
         replay.SetRect(220, 320);
         menu.SetRect(420, 320);
+
+        // --- XỬ LÝ ĐỔI MÀU KHI HOVER ---
+        int mouse_x = 0;
+        int mouse_y = 0;
+        SDL_GetMouseState(&mouse_x, &mouse_y);
+
+        // Hover cho nút Play Again (Dải tọa độ 220-360 x 320-350)
+        if (mouse_x >= 220 && mouse_x <= 360 && mouse_y >= 320 && mouse_y <= 350)
+        {
+            replay.SetColor(TextObject::PURPLE_PINK_TEXT);
+        }
+        else
+        {
+            replay.SetColor(TextObject::RED_TEXT);
+        }
+
+        // Hover cho nút Back Menu (Dải tọa độ 420-560 x 320-350)
+        if (mouse_x >= 420 && mouse_x <= 560 && mouse_y >= 320 && mouse_y <= 350)
+        {
+            menu.SetColor(TextObject::PURPLE_PINK_TEXT);
+        }
+        else
+        {
+            menu.SetColor(TextObject::RED_TEXT);
+        }
 
         title.CreatFontText(font, screen);
         txtScore.CreatFontText(font, screen);

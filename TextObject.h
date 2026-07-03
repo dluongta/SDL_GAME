@@ -1,4 +1,4 @@
-#ifndef TEXT_OBJECT_H
+﻿#ifndef TEXT_OBJECT_H
 #define TEXT_OBJECT_H
 
 #include <string>
@@ -12,7 +12,7 @@ public:
 		RED_TEXT = 0,
 		WHITE_TEXT = 1,
 		BLACK_TEXT = 2,
-
+		PURPLE_PINK_TEXT = 3
 	};
 	TextObject();
 	~TextObject();
