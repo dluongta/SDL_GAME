@@ -19,7 +19,8 @@ TextObject high_score;
 
 bool Init()
 {
-    srand(time(NULL));
+    // Đã ép kiểu (unsigned int) để hết cảnh báo (warning)
+    srand((unsigned int)time(NULL));
 
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
         return false;
@@ -50,9 +51,12 @@ bool Init()
 }
 
 // ===================== PLAY MODE 1 =====================
-bool PlayMode1()
+// Đã thêm tham số 'level' để bạn có thể tuỳ chỉnh độ khó của Board sau này
+bool PlayMode1(int level)
 {
     Board board;
+    // TODO: Sau này bạn có thể sửa Board để nhận 'level' vào, ví dụ: Board board(level);
+
     Uint32 start_time = SDL_GetTicks();
 
     while (!is_quit)
@@ -111,7 +115,7 @@ bool PlayMode1()
                 result.Show(g_screen, g_font_text, RESULT_WIN, score_val, highscore);
 
             if (action == ACTION_REPLAY)
-                return PlayMode1();
+                return PlayMode1(level); // Truyền lại level nếu chơi lại
 
             return false;
         }
@@ -128,7 +132,7 @@ bool PlayMode1()
                 result.Show(g_screen, g_font_text, RESULT_LOSE, score_val, highscore);
 
             if (action == ACTION_REPLAY)
-                return PlayMode1();
+                return PlayMode1(level); // Truyền lại level nếu chơi lại
 
             return false;
         }
@@ -140,9 +144,12 @@ bool PlayMode1()
 }
 
 // ===================== PLAY MODE 2 =====================
-bool PlayMode2()
+// Đã thêm tham số 'level' để bạn có thể tuỳ chỉnh độ khó của Board5x5 sau này
+bool PlayMode2(int level)
 {
     Board5x5 board;
+    // TODO: Sau này bạn có thể sửa Board5x5 để nhận 'level' vào, ví dụ: Board5x5 board(level);
+
     Uint32 start_time = SDL_GetTicks();
 
     while (!is_quit)
@@ -201,7 +208,7 @@ bool PlayMode2()
                 result.Show(g_screen, g_font_text, RESULT_WIN, score_val, highscore);
 
             if (action == ACTION_REPLAY)
-                return PlayMode2();
+                return PlayMode2(level);
 
             return false;
         }
@@ -218,7 +225,7 @@ bool PlayMode2()
                 result.Show(g_screen, g_font_text, RESULT_LOSE, score_val, highscore);
 
             if (action == ACTION_REPLAY)
-                return PlayMode2();
+                return PlayMode2(level);
 
             return false;
         }
@@ -243,17 +250,22 @@ int main(int argc, char* argv[])
     {
         highscore = GetHighScoreFromFile("high_score.txt");
 
-        int num_menu = SDLCommonFunc::ShowMenu(g_screen, g_font_text);
+        // Biến lưu chế độ người chơi đã chọn (4x4 hoặc 5x5)
+        int selected_mode = 0;
 
-        if (num_menu == 2)
+        // Gọi ShowMenu với 3 tham số. Trả về là Level (1, 2, 3) hoặc 0 (Thoát)
+        int level = SDLCommonFunc::ShowMenu(g_screen, g_font_text, selected_mode);
+
+        if (level == 0) // Người chơi chọn nút Exit
             break;
 
         bool is_done = false;
 
-        if (num_menu == 0)
-            is_done = PlayMode1();
-        else if (num_menu == 1)
-            is_done = PlayMode2();
+        // Xử lý chạy game theo Mode đã chọn, và có thể dùng 'level' để set độ khó
+        if (selected_mode == 4)
+            is_done = PlayMode1(level);
+        else if (selected_mode == 5)
+            is_done = PlayMode2(level);
 
         if (is_done)
             break;

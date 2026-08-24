@@ -42,22 +42,118 @@ bool SDLCommonFunc::CheckFocusWithRect(const int& x, const int& y, const SDL_Rec
     return false;
 }
 
-int SDLCommonFunc::ShowMenu(SDL_Surface* des, TTF_Font* font)
+int SDLCommonFunc::ShowLevelMenu(SDL_Surface* des, TTF_Font* font, int mode)
+{
+    const int LevelItemNum = 4;
+    TextObject text_level[LevelItemNum];
+    TextObject title;
+
+    title.SetColor(TextObject::RED_TEXT);
+    if (mode == 0)
+        title.SetText("MODE 4x4");
+    else
+        title.SetText("MODE 5x5");
+
+    title.SetRect(250, 100);
+
+    text_level[0].SetText("Level 1");
+    text_level[1].SetText("Level 2");
+    text_level[2].SetText("Level 3");
+    text_level[3].SetText("Back Menu");
+
+    for (int i = 0; i < LevelItemNum; i++)
+    {
+        text_level[i].SetColor(TextObject::RED_TEXT);
+        text_level[i].SetRect(250, 180 + i * 50);
+    }
+
+    bool selected[LevelItemNum] = { 0, 0, 0, 0 };
+    int xm = 0, ym = 0;
+    SDL_Event l_event;
+
+    while (true)
+    {
+        SDL_FillRect(des, NULL, SDL_MapRGB(des->format, 255, 255, 255));
+
+        title.CreatFontText(font, des);
+        for (int i = 0; i < LevelItemNum; i++)
+        {
+            text_level[i].CreatFontText(font, des);
+        }
+
+        while (SDL_PollEvent(&l_event))
+        {
+            switch (l_event.type)
+            {
+            case SDL_QUIT:
+                return -1;
+            case SDL_MOUSEMOTION:
+            {
+                xm = l_event.motion.x;
+                ym = l_event.motion.y;
+                for (int i = 0; i < LevelItemNum; i++)
+                {
+                    if (CheckFocusWithRect(xm, ym, text_level[i].GetRect()))
+                    {
+                        if (selected[i] == 0)
+                        {
+                            selected[i] = 1;
+                            text_level[i].SetColor(TextObject::PURPLE_TEXT);
+                        }
+                    }
+                    else
+                    {
+                        if (selected[i] == 1)
+                        {
+                            selected[i] = 0;
+                            text_level[i].SetColor(TextObject::RED_TEXT);
+                        }
+                    }
+                }
+            }
+            break;
+            case SDL_MOUSEBUTTONDOWN:
+            {
+                xm = l_event.motion.x;
+                ym = l_event.motion.y;
+                for (int i = 0; i < LevelItemNum; i++)
+                {
+                    if (CheckFocusWithRect(xm, ym, text_level[i].GetRect()))
+                    {
+                        return i;
+                    }
+                }
+            }
+            break;
+            case SDL_KEYDOWN:
+                if (l_event.key.keysym.sym == SDLK_ESCAPE)
+                {
+                    return -1;
+                }
+                break;
+            }
+        }
+        SDL_Flip(des);
+        SDL_Delay(16);
+    }
+}
+
+int SDLCommonFunc::ShowMenu(SDL_Surface* des, TTF_Font* font, int& out_mode)
 {
     g_menu = LoadImage("image/background2d.png");
     if (g_menu == NULL)
     {
-        return 1;
+        return 0;
     }
 
     const int MenuItemNum = 3;
     SDL_Rect pos_arr[MenuItemNum];
-    pos_arr[0].x = SCREEN_WIDTH / 2 - 60;
-    pos_arr[0].y = SCREEN_HEIGHT / 2 - 60;
-    pos_arr[1].x = SCREEN_WIDTH / 2 - 60;
-    pos_arr[1].y = SCREEN_HEIGHT / 2 - 30;
-    pos_arr[2].x = SCREEN_WIDTH / 2 - 60;
-    pos_arr[2].y = SCREEN_HEIGHT / 2;
+    pos_arr[0].x = 250;
+    pos_arr[0].y = 200;
+    pos_arr[1].x = 250;
+    pos_arr[1].y = 250;
+    pos_arr[2].x = 250;
+    pos_arr[2].y = 300;
 
     TextObject text_menu[MenuItemNum];
     text_menu[0].SetText("Play Mode 4x4");
@@ -79,7 +175,8 @@ int SDLCommonFunc::ShowMenu(SDL_Surface* des, TTF_Font* font)
 
     while (true)
     {
-        SDLCommonFunc::ApplySurface(g_menu, des, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        SDLCommonFunc::ApplySurface(g_menu, des, 0, 0, 800, 600);
+
         for (int i = 0; i < MenuItemNum; i++)
         {
             text_menu[i].CreatFontText(font, des);
@@ -90,7 +187,7 @@ int SDLCommonFunc::ShowMenu(SDL_Surface* des, TTF_Font* font)
             switch (m_event.type)
             {
             case SDL_QUIT:
-                return 2;
+                return 0;
             case SDL_MOUSEMOTION:
             {
                 xm = m_event.motion.x;
@@ -102,7 +199,6 @@ int SDLCommonFunc::ShowMenu(SDL_Surface* des, TTF_Font* font)
                         if (selected[i] == 0)
                         {
                             selected[i] = 1;
-                            // HOVER: Đổi sang Tím
                             text_menu[i].SetColor(TextObject::PURPLE_TEXT);
                         }
                     }
@@ -111,14 +207,13 @@ int SDLCommonFunc::ShowMenu(SDL_Surface* des, TTF_Font* font)
                         if (selected[i] == 1)
                         {
                             selected[i] = 0;
-                            // RỜI KHỎI: Trả về Đỏ
                             text_menu[i].SetColor(TextObject::RED_TEXT);
                         }
                     }
                 }
             }
             break;
-            case  SDL_MOUSEBUTTONDOWN:
+            case SDL_MOUSEBUTTONDOWN:
             {
                 xm = m_event.motion.x;
                 ym = m_event.motion.y;
@@ -126,7 +221,28 @@ int SDLCommonFunc::ShowMenu(SDL_Surface* des, TTF_Font* font)
                 {
                     if (CheckFocusWithRect(xm, ym, text_menu[i].GetRect()))
                     {
-                        return i;
+                        if (i == 0 || i == 1)
+                        {
+                            int level_choice = ShowLevelMenu(des, font, i);
+
+                            if (level_choice == -1)
+                            {
+                                exit(0);
+                            }
+                            else if (level_choice == 3)
+                            {
+                                break;
+                            }
+                            else if (level_choice >= 0 && level_choice <= 2)
+                            {
+                                out_mode = (i == 0) ? 4 : 5;
+                                return level_choice + 1;
+                            }
+                        }
+                        else if (i == 2)
+                        {
+                            return 0;
+                        }
                     }
                 }
             }
@@ -134,7 +250,7 @@ int SDLCommonFunc::ShowMenu(SDL_Surface* des, TTF_Font* font)
             case SDL_KEYDOWN:
                 if (m_event.key.keysym.sym == SDLK_ESCAPE)
                 {
-                    exit(2);
+                    exit(0);
                 }
                 break;
             default:
@@ -142,6 +258,7 @@ int SDLCommonFunc::ShowMenu(SDL_Surface* des, TTF_Font* font)
             }
         }
         SDL_Flip(des);
+        SDL_Delay(16);
     }
-    return 1;
+    return 0;
 }
