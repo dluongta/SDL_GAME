@@ -50,11 +50,11 @@ int SDLCommonFunc::ShowLevelMenu(SDL_Surface* des, TTF_Font* font, int mode)
 
     title.SetColor(TextObject::RED_TEXT);
     if (mode == 0)
-        title.SetText("MODE 4x4");
+        title.SetText("4x4 Mode - Select Level");
     else
-        title.SetText("MODE 5x5");
+        title.SetText("5x5 Mode - Select Level");
 
-    title.SetRect(250, 100);
+    title.SetRect(180, 100);
 
     text_level[0].SetText("Level 1");
     text_level[1].SetText("Level 2");
@@ -156,11 +156,11 @@ int SDLCommonFunc::ShowMenu(SDL_Surface* des, TTF_Font* font, int& out_mode)
     pos_arr[2].y = 300;
 
     TextObject text_menu[MenuItemNum];
-    text_menu[0].SetText("Play Mode 4x4");
+    text_menu[0].SetText("Play 4x4 Mode");
     text_menu[0].SetColor(TextObject::RED_TEXT);
     text_menu[0].SetRect(pos_arr[0].x, pos_arr[0].y);
 
-    text_menu[1].SetText("Play Mode 5x5");
+    text_menu[1].SetText("Play 5x5 Mode");
     text_menu[1].SetColor(TextObject::RED_TEXT);
     text_menu[1].SetRect(pos_arr[1].x, pos_arr[1].y);
 
