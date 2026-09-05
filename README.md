@@ -13,7 +13,7 @@ When the pipeline is completed, water will flow through the pipes.
 The player wins when the water successfully reaches all water pipe destinations.
 
 ## Installation
-Open the file WaterPipe.exe 
+Open SDLGame.exe file.
 
 ## Game Objective
 The player needs to:
