@@ -1,7 +1,7 @@
 # SDL Game - Water Pipe
 ## Introduction
 
-Water Pipe is a puzzle game developed using C++ and the SDL2 library.
+Water Pipe is a puzzle game developed using C++, BFS Algorithm and the SDL Library.
 
 The main objective of the game is to rotate pipe pieces and connect them into a complete pipeline, allowing water to flow from the source to the destinations.
 
@@ -14,19 +14,3 @@ The player wins when the water successfully reaches all water pipe destinations.
 
 ## Installation
 Open SDLGame.exe file.
-
-## Game Objective
-The player needs to:
-Examine the connection points of each pipe.
-Rotate the pipes into the correct orientation.
-Create a continuous pipeline.
-Connect the water source to the destination.
-Complete the level successfully.
-
-## Features
-Simple and intuitive puzzle gameplay.
-Mouse-based pipe rotation.
-Multiple pipe shapes and configurations.
-Use 2D graphics powered by SDL2.
-Click sound effects.
-Multiple levels with many modes.
